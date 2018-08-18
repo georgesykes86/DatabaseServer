@@ -5,41 +5,45 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.URI;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class GetRootHandler implements HttpHandler {
+public class SetRootHandler implements HttpHandler {
 
   private DbInterface db;
 
-  public GetRootHandler(DbInterface db){
+  public SetRootHandler(DbInterface db){
     this.db = db;
   }
 
   @Override
   public void handle(HttpExchange httpExchange) throws IOException {
     String query = httpExchange.getRequestURI().getQuery();
-    String key = this.parseQuery(query);
-    String response = (key != null) ? this.getValue(key) : "";
+    this.updateDb(query);
+    String response = "";
     httpExchange.sendResponseHeaders(200, response.getBytes().length);
     OutputStream os = httpExchange.getResponseBody();
     os.write(response.getBytes());
     os.close();
   }
 
-  private String parseQuery(String query) {
-    Pattern pattern = Pattern.compile(",*key=([^,]*)");
-    Matcher matcher = pattern.matcher(query);
-    if(matcher.find()){
-      return matcher.group(1);
+  private void updateDb(String query) {
+    HashMap<String, String> map = this.parseQuery(query);
+    for(String key : map.keySet()) {
+      this.db.setValue(key, map.get(key));
     }
-    return null;
   }
 
-  private String getValue(String key){
-    String value = this.db.getValue(key);
-    return (value != null) ? value : "";
+  private HashMap<String, String> parseQuery(String query) {
+    Pattern pattern = Pattern.compile("([^,]*)=([^,]*)");
+    Matcher matcher = pattern.matcher(query);
+    HashMap<String, String> map = new HashMap<>();
+    while(matcher.find()) {
+      map.put(matcher.group(1), matcher.group(2));
+    }
+    return map;
   }
 
 }
