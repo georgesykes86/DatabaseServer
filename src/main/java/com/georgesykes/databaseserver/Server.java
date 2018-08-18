@@ -16,12 +16,12 @@ public class Server {
     KeyValueStore db = new KeyValueStore();
     server.createContext("/get", new GetRootHandler(db));
     server.createContext("/set", new SetRootHandler(db));
-    server.setExecutor(null);
     server.start();
   }
 
   public void stop(){
     server.stop(0);
+    System.out.println("Stopping server.....");
   }
 
 }
