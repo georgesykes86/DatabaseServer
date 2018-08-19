@@ -8,7 +8,6 @@ import static org.mockito.Mockito.when;
 import com.georgesykes.databaseserver.Controllers.GetRootHandler;
 import com.georgesykes.databaseserver.DbInterface;
 import com.sun.net.httpserver.HttpExchange;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
