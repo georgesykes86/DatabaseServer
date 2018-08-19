@@ -29,7 +29,7 @@ public class GetRootHandler implements HttpHandler {
   }
 
   private String parseQuery(String query) {
-    Pattern pattern = Pattern.compile(",*key=([^,]*)");
+    Pattern pattern = Pattern.compile("(?:^|[, ])key=([^,]*)");
     Matcher matcher = pattern.matcher(query);
     if(matcher.find()){
       return matcher.group(1);
