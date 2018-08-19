@@ -36,7 +36,7 @@ public class SetRootHandler implements HttpHandler {
   }
 
   private HashMap<String, String> parseQuery(String query) {
-    Pattern pattern = Pattern.compile("([^,]*)=([^,]*)");
+    Pattern pattern = Pattern.compile("([^&]*)=([^&]*)");
     Matcher matcher = pattern.matcher(query);
     HashMap<String, String> map = new HashMap<>();
     while(matcher.find()) {

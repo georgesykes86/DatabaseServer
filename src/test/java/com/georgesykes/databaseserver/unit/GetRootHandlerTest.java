@@ -67,7 +67,7 @@ public class GetRootHandlerTest {
 
   @Test
   public void handleRequestOnlyUsesFirstKey() throws IOException {
-    when(uri.getQuery()).thenReturn("key=firstKey,key=secondKey");
+    when(uri.getQuery()).thenReturn("key=firstKey&key=secondKey");
     handler.handle(exchange);
     verify(db, times(1)).getValue("firstKey");
   }

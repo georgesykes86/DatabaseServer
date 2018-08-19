@@ -56,11 +56,10 @@ public class SetRootHandlerTest {
 
   @Test
   public void handleRequestMultipleKeyValues() throws IOException {
-    when(uri.getQuery()).thenReturn("key1=value1,key2=value2");
+    when(uri.getQuery()).thenReturn("key1=value1&key2=value2");
     handler.handle(exchange);
     verify(db).setValue("key1", "value1");
     verify(db).setValue("key2", "value2");
   }
-
 
 }
